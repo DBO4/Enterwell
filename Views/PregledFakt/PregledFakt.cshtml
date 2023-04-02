@@ -1,0 +1,37 @@
+﻿@model List<WebApplication1.Models.Faktura>
+@{
+}
+
+<h1>Fakture</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Br.Fakture</th>
+            <th>Datum kreiranja</th>
+            <th>Rok uplate</th>
+            <th>Cijena bez poreza</th>
+            <th>Cijena sa porezom</th>
+            <th>Kreirao račun</th>
+            <th>Kupac</th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var faktura in Model)
+        {
+            <tr>
+                <td>@faktura.BrojFakture</td>
+                <td>@faktura.DatumStvaranja</td>
+                <td>@faktura.DatumDospijeca</td>
+                <td>@faktura.UkupnaCijenaBezPoreza</td>
+                <td>@faktura.UkupnaCijenaSPorezom</td>
+                <td>@faktura.StvarateljRacuna</td>  
+                <td>@faktura.NazivPrimateljaRacuna</td>
+                <td>
+                    <a href="@Url.Action("DetaljiFakture", "PregledFakt", new { brFakt = faktura.BrojFakture })">Pogledaj elemente</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

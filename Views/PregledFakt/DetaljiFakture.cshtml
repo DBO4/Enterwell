@@ -1,0 +1,46 @@
+﻿@model Tuple< List<Prodano>, Faktura, List<Stavka>>
+@{
+}
+
+<h1>Faktura br. @Model.Item2.BrojFakture</h1>
+<div>
+    <a> <b>Datum kreiranja:</b> @Model.Item2.DatumStvaranja</a>
+    <a> <b>Rok plaćanja:</b> @Model.Item2.DatumDospijeca.ToShortDateString()</a>
+</div>
+
+<a style="font-size: 20px;"><b>Račun izdao:</b> @Model.Item2.StvarateljRacuna </a>
+<a style="font-size: 20px;"><b>Kupac:</b> @Model.Item2.NazivPrimateljaRacuna </a>
+
+<table class="table" style="width:100%;overflow: auto; height: 400px;">
+    <thead>
+        <tr>
+            <th>IdStavke</th>
+            <th>Artikal</th>
+            <th>Količina</th>
+            <th>Cijena bez poreza</th>
+            <th>Cijena sa porezom</th>
+            <th>Kreirao račun</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prod in Model.Item1)
+        {
+            <tr>
+                <td>@prod.idStavke</td>
+                <td>@prod.Opis</td>
+                <td>@prod.Kolicina</td>
+                <td>@prod.JedinicnaCijenaBezPoreza</td>
+                <td>@prod.UkupnaCijenaBezPoreza</td>
+                <td>@prod.Fakturisao</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div style="text-align: right;">
+    <h5><b>Cijena bez poreza:</b> @Model.Item2.UkupnaCijenaBezPoreza </h5>
+    <h5><b>Cijena sa porezom:</b> @Model.Item2.UkupnaCijenaSPorezom </h5>
+</div>
+
+
+
+

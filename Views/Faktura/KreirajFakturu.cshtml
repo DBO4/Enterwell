@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebApplication1.Areas.Identity.Data
+@model Tuple< List<Stavka>, List<PripremaZaFakturisanjeVM> >
+@{
+}
+@inject SignInManager<WebApplication1User> SignInManager
+@inject UserManager<WebApplication1User> UserManager
+
+<h1>Kreiraj Fakturu</h1>
+@if (TempData["Poruka"] != null)
+{
+    //<div class="alert alert-danger">@TempData["Poruka"]</div>
+}
+<form method="post" action="KreirajFakturu">
+    <div class="table" style="width:100%;overflow: auto; height: 400px;">
+        <div style=" border: 2px solid black;">
+            <h4>Stavke na skladištu</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Naziv</th>
+                        <th>Količina na stanju</th>
+                        <th>Cijena</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var stavka in Model.Item1)
+                    {
+                        if(stavka.Kolicina > 0)
+                        {
+                            <tr id=@stavka.idStavke>
+                                <td>
+
+                                    <h5>@stavka.Opis</h5>
+                                    <p name="idStavke" id="idStavke" style="font-size: 10px">@stavka.idStavke</p>
+                                </td>
+                                <td>Količina: @stavka.Kolicina</td>
+                                <td>
+                                    Cijena: @stavka.JedinicnaCijenaBezPoreza KM
+                                    <input type="hidden" name="cijena" id="cijena" value=@stavka.JedinicnaCijenaBezPoreza />
+                                </td>
+                                <td>
+                                    <input type="number" name="potroseno_@stavka.idStavke" id="potroseno" style="width:80%" value="1" min="1" max=@stavka.Kolicina />
+                                </td>
+                                <td>
+                                    <!--Dodaj na fakturu: <input style="width: 60px; height: 30px" id = "cDodajNaFakturu" type="checkbox"/>-->
+                                    <input style="width: 60px; height: 30px" id="cDodajNaFakturu_@stavka.idStavke" type="checkbox" name="chk_@stavka.idStavke" />
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <p>Rok plaćanja: </p>
+        <input type="date" id="dtRok" style="margin: 0px 20px" name="dtRok" />
+        <p>PDV: </p>
+        <select class="form-control" style="width: 10%; margin: 0px 20px 0px 10px" id="pdv" name="pdv">
+            <option>BiH - 17%</option>
+            <option>HR - 25%</option>
+        </select>
+        <p>Kupac:</p>
+        <input type="text" id="kupac" style="width: 10%; margin: 0px 20px" name="kupac">
+
+    </div>
+    
+    <button type="submit" id ="btnPotvrdi"class="btn btn-primary">Potvrdi</button>
+    <script>
+        /*function posaljiFormu() {
+            // Pronađi sve čekirane checkbox-ove
+            var checked = document.querySelectorAll('input[name="cDodajNaFakturu"]:checked');
+
+            // Napravi prazan niz za spremanje vrijednosti čekiranih checkbox-ova
+            var values = [];
+
+            // Iteriraj kroz sve pronađene checkbox-ove i dodaj njihove vrijednosti u niz
+            for (var i = 0; i < checked.length; i++) {
+                values.push(checked[i].value);
+            }
+
+            // Napravi AJAX poziv na serversku stranu i pošalji vrijednosti čekiranih checkbox-ova
+            $.ajax({
+                type: "POST",
+                url: "url_za_slanje_forme",
+                data: { values: values },
+                success: function (data) {
+                    console.log("Forma je uspješno poslana na serversku stranu.");
+                },
+                error: function (xhr, status, error) {
+                    console.log("Došlo je do greške prilikom slanja forme: " + error);
+                }
+            });
+        }
+        */
+    </script>
+</form>
