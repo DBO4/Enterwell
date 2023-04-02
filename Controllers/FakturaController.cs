@@ -92,8 +92,8 @@ namespace WebApplication1.Controllers
                                 brojFakture = Faktura.BrojFakture,
                                 Fakturisao = Faktura.StvarateljRacuna,
                                 Kolicina = kol,
-                                JedinicnaCijenaBezPoreza = stavka.JedinicnaCijenaBezPoreza,
-                                UkupnaCijenaBezPoreza = Convert.ToDecimal(porez.VratiCijenuSaPDV(PDV.ToString(), Convert.ToDouble(stavka.JedinicnaCijenaBezPoreza)))
+                                JedinicnaCijenaBezPoreza = stavka.JedinicnaCijenaBezPoreza * kol,
+                                UkupnaCijenaBezPoreza = Convert.ToDecimal(porez.VratiCijenuSaPDV(PDV.ToString(), Convert.ToDouble(stavka.JedinicnaCijenaBezPoreza * kol)))
                             };
                             await _context.Prodano.AddAsync(ProdanaStavka);
                             await _context.SaveChangesAsync();
